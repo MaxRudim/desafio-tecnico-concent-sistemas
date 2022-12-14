@@ -14,11 +14,9 @@ namespace ConcentKitchen.Models
 
     // Chave estrangeira
     public Guid ClientId { get; set; }
-    // public Guid DishId {get; set; }
 
     // // Propriedades de navegação
     public Client? Client { get; set; }
-    // public ICollection<Dish>? Dish { get; set; }
 
   }
 }

@@ -7,6 +7,7 @@ public class KitchenContext : DbContext, IKitchenContext
     public DbSet<Client>? Clients { get; set; }
     public DbSet<Dish>? Dishes { get; set; }
     public DbSet<Order>? Orders { get; set; }
+    public DbSet<OrderDish>? OrderDishes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

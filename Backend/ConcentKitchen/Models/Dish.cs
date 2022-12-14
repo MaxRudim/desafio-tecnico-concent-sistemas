@@ -22,6 +22,5 @@ namespace ConcentKitchen.Models
     [Required]
     public string DishIngredients { get; set; }
 
-    // public ICollection<Order> Orders { get; set; }
   }
 }
