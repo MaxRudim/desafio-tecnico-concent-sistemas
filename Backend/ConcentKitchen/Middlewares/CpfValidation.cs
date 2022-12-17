@@ -1,6 +1,4 @@
-using System;
-
-namespace ClientUpd8.Middlewares
+namespace ConcentKitchen.Middlewares
 {
 	public static class ValidaCPF
 	{
