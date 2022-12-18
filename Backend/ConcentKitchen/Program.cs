@@ -1,4 +1,5 @@
 using ConcentKitchen.Repository;
+using ConcentKitchen.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,10 +9,18 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<KitchenContext>();
 builder.Services.AddScoped<IKitchenContext, KitchenContext>();
+
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IClientService, ClientService>();
+
 builder.Services.AddScoped<IDishRepository, DishRepository>();
+builder.Services.AddScoped<IDishService, DishService>();
+
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
 builder.Services.AddScoped<IOrderDishRepository, OrderDishRepository>();
+builder.Services.AddScoped<IOrderDishService, OrderDishService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

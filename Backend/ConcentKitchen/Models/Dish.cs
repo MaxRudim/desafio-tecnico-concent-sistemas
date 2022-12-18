@@ -8,19 +8,19 @@ namespace ConcentKitchen.Models
     public Guid DishId { get; set; }
 
     [Required]
-    public string DishName { get; set; }
+    public string DishName { get; set; } = string.Empty;
 
     [Required]
     public float DishPrice { get; set; }
 
     [Required]
-    public int DishConclusionInMinutes { get; set; }
+    public int DishPreparationTimeInMinutes { get; set; }
 
     [Required]
-    public string DishCategory { get; set; }
+    public string DishCategory { get; set; } = string.Empty;
 
     [Required]
-    public string DishIngredients { get; set; }
+    public string DishIngredients { get; set; } = string.Empty;
 
   }
 }

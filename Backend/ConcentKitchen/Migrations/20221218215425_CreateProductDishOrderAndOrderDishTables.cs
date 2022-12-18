@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ConcentKitchen.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateProductDishAndOrderTables : Migration
+    public partial class CreateProductDishOrderAndOrderDishTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,7 +26,7 @@ namespace ConcentKitchen.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDish",
+                name: "OrderDishes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -35,7 +35,7 @@ namespace ConcentKitchen.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderDish", x => x.Id);
+                    table.PrimaryKey("PK_OrderDishes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,7 +45,7 @@ namespace ConcentKitchen.Migrations
                     DishId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DishName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DishPrice = table.Column<float>(type: "real", nullable: false),
-                    DishConclusionInMinutes = table.Column<int>(type: "int", nullable: false),
+                    DishPreparationTimeInMinutes = table.Column<int>(type: "int", nullable: false),
                     DishCategory = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DishIngredients = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderDishId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -54,9 +54,9 @@ namespace ConcentKitchen.Migrations
                 {
                     table.PrimaryKey("PK_Dishes", x => x.DishId);
                     table.ForeignKey(
-                        name: "FK_Dishes_OrderDish_OrderDishId",
+                        name: "FK_Dishes_OrderDishes_OrderDishId",
                         column: x => x.OrderDishId,
-                        principalTable: "OrderDish",
+                        principalTable: "OrderDishes",
                         principalColumn: "Id");
                 });
 
@@ -64,17 +64,17 @@ namespace ConcentKitchen.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TotalPrice = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<float>(type: "real", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CompletionDeadline = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrderDishId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.ClientId);
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
                         name: "FK_Orders_Clients_ClientId",
                         column: x => x.ClientId,
@@ -82,9 +82,9 @@ namespace ConcentKitchen.Migrations
                         principalColumn: "ClientId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_OrderDish_OrderDishId",
+                        name: "FK_Orders_OrderDishes_OrderDishId",
                         column: x => x.OrderDishId,
-                        principalTable: "OrderDish",
+                        principalTable: "OrderDishes",
                         principalColumn: "Id");
                 });
 
@@ -92,6 +92,11 @@ namespace ConcentKitchen.Migrations
                 name: "IX_Dishes_OrderDishId",
                 table: "Dishes",
                 column: "OrderDishId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_ClientId",
+                table: "Orders",
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_OrderDishId",
@@ -112,7 +117,7 @@ namespace ConcentKitchen.Migrations
                 name: "Clients");
 
             migrationBuilder.DropTable(
-                name: "OrderDish");
+                name: "OrderDishes");
         }
     }
 }

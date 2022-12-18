@@ -81,7 +81,6 @@ public class DishService : IDishService
             dishExist.DishName = dish.DishName;
             dishExist.DishIngredients = dish.DishIngredients;
             dishExist.DishCategory = dish.DishCategory;
-            dishExist.DishConclusionInMinutes = dish.DishConclusionInMinutes;
             dishExist.DishPrice = dish.DishPrice;
 
             await _repository.Update(dishExist);

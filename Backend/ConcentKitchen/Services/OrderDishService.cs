@@ -27,6 +27,11 @@ public class OrderDishService : IOrderDishService
             var dishExist = await _dishRepository.Get(orderdish.DishId);
             if (dishExist is null) throw new InvalidOperationException("Este prato não existe");
 
+            orderExist.TotalPrice += dishExist.DishPrice;
+            orderExist.CompletionDeadline = orderExist.CompletionDeadline.AddMinutes(Convert.ToDouble(dishExist.DishPreparationTimeInMinutes));
+
+            await _orderRepository.Update(orderExist);
+
             var output = await _repository.Add(orderdish);
             return output;
         }
@@ -42,6 +47,17 @@ public class OrderDishService : IOrderDishService
         {
             var orderDishExist = await _repository.Get(id);
             if (orderDishExist is null) throw new InvalidOperationException("Esta relação ordem/prato não existe");
+
+            var orderExist = await _orderRepository.Get(orderDishExist.OrderId);
+            if (orderExist is null) throw new InvalidOperationException("Este pedido não existe");
+
+            var dishExist = await _dishRepository.Get(orderDishExist.DishId);
+            if (dishExist is null) throw new InvalidOperationException("Este prato não existe");
+
+            orderExist.TotalPrice -= dishExist.DishPrice;
+            orderExist.CompletionDeadline = orderExist.CompletionDeadline.AddMinutes(Convert.ToDouble(dishExist.DishPreparationTimeInMinutes * -1));
+            
+            await _orderRepository.Update(orderExist);
 
             await _repository.Delete(id);
         }

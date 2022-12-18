@@ -26,12 +26,21 @@ public class KitchenContext : DbContext, IKitchenContext
     protected override void OnModelCreating(ModelBuilder mb)
     {
        mb.Entity<Order>()
-        .HasKey(o => new { o.ClientId });
+        .HasKey(o => new { o.OrderId });
 
-      mb.Entity<Order>()
-        .HasOne(cl => cl.Client)
-        .WithMany(o => o.Orders)
-        .HasForeignKey(cl => cl.ClientId);
+      mb.Entity<Client>()
+        .HasKey(cl => new { cl.ClientId });
+
+      mb.Entity<Dish>()
+        .HasKey(d => new { d.DishId });
+      
+      mb.Entity<OrderDish>()
+        .HasKey(od => new { od.Id });
+
+      // mb.Entity<Order>()
+      //   .HasOne(cl => cl.Client)
+      //   .WithMany(o => o.Orders)
+      //   .HasForeignKey(cl => cl.ClientId);      
 
       mb.Entity<OrderDish>()
         .HasMany(d => d.Dish);

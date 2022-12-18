@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConcentKitchen.Migrations
 {
     [DbContext(typeof(KitchenContext))]
-    [Migration("20221214184043_CreateProductDishAndOrderTables")]
-    partial class CreateProductDishAndOrderTables
+    [Migration("20221218215425_CreateProductDishOrderAndOrderDishTables")]
+    partial class CreateProductDishOrderAndOrderDishTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,9 +58,6 @@ namespace ConcentKitchen.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DishConclusionInMinutes")
-                        .HasColumnType("int");
-
                     b.Property<string>("DishIngredients")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -68,6 +65,9 @@ namespace ConcentKitchen.Migrations
                     b.Property<string>("DishName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DishPreparationTimeInMinutes")
+                        .HasColumnType("int");
 
                     b.Property<float>("DishPrice")
                         .HasColumnType("real");
@@ -84,6 +84,10 @@ namespace ConcentKitchen.Migrations
 
             modelBuilder.Entity("ConcentKitchen.Models.Order", b =>
                 {
+                    b.Property<Guid>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
@@ -93,9 +97,6 @@ namespace ConcentKitchen.Migrations
                     b.Property<Guid?>("OrderDishId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("OrderTime")
                         .HasColumnType("datetime2");
 
@@ -103,10 +104,12 @@ namespace ConcentKitchen.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TotalPrice")
-                        .HasColumnType("int");
+                    b.Property<float>("TotalPrice")
+                        .HasColumnType("real");
 
-                    b.HasKey("ClientId");
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("OrderDishId");
 
@@ -127,7 +130,7 @@ namespace ConcentKitchen.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderDish");
+                    b.ToTable("OrderDishes");
                 });
 
             modelBuilder.Entity("ConcentKitchen.Models.Dish", b =>

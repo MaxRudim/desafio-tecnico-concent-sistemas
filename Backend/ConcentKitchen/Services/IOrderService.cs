@@ -9,5 +9,6 @@ public interface IOrderService
     public Task<Order> UpdateOrder(Order order);
     public Task<IEnumerable<Order>> GetAllOrders();
     public Task<Order> GetOrder(string id);
+    public Task<ICollection<Order>> GetOrdersByClient(Guid clientid);
 
 }

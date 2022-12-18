@@ -1,3 +1,4 @@
+using System.Globalization;
 using ConcentKitchen.Models;
 using ConcentKitchen.Repository;
 
@@ -17,6 +18,12 @@ public class OrderService : IOrderService
             var orderExist = await _repository.Get(order.OrderId);
             if (orderExist is not null) throw new InvalidOperationException("Este pedido já existe");
 
+            List<string> status = new() { "aguardando", "em preparo", "finalizado", "cancelado"};
+            if (!status.Contains(order.Status))
+            {
+              throw new InvalidOperationException("O status deve ser: 'aguardando', 'em preparo', 'finalizado' ou 'cancelado'.");
+            }
+
             var output = await _repository.Add(order);
             return output;
         }
@@ -24,6 +31,10 @@ public class OrderService : IOrderService
         {
           throw ex;
         }
+        // catch (Exception)
+        // {
+        //   throw new Exception("Ocorreu algum erro nos dados informados. Por favor, tente novamente");
+        // }
     }
 
     public async Task DeleteOrder(Guid id)
@@ -56,6 +67,20 @@ public class OrderService : IOrderService
         }
     }
     
+    public async Task<ICollection<Order>> GetOrdersByClient(Guid clientid)
+    {
+        try
+        {
+            var orders = await _repository.GetOrdersByClient(clientid)!;
+            if (!orders.Any()) throw new InvalidOperationException("Não há pedidos para este cliente");
+
+            return orders;
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw ex;
+        }
+    }
     public async Task<Order> GetOrder(string id)
     {
         try
@@ -77,6 +102,12 @@ public class OrderService : IOrderService
         {
             var orderExist = await _repository.Get(order.OrderId);
             if (orderExist == null) throw new InvalidOperationException("Este pedido não existe");
+
+            List<string> status = new() { "aguardando", "em preparo", "finalizado", "cancelado"};
+            if (!status.Contains(order.Status))
+            {
+              throw new InvalidOperationException("O status deve ser: 'aguardando', 'em preparo', 'finalizado' ou 'cancelado'.");
+            }
 
             orderExist.CompletionDeadline = order.CompletionDeadline;
             orderExist.OrderTime = order.OrderTime;

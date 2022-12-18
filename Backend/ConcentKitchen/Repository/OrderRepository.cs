@@ -44,6 +44,13 @@ public class OrderRepository : IOrderRepository
         return order;
     }
 
+    public async Task<List<Order>>? GetOrdersByClient(Guid clientid)
+    {
+        var orders = await _context.Orders!.Where(od => od.ClientId == clientid).ToListAsync();
+
+        return orders;
+    }
+
     public async Task<IEnumerable<Order>> GetAll()
     {
         var orders = await _context.Orders!.ToListAsync();
