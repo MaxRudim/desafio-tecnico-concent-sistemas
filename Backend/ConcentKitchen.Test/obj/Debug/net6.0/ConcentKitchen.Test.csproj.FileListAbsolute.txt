@@ -174,3 +174,5 @@
 /home/max/Documentos/teste-tecnico-concent-sistemas/Backend/ConcentKitchen.Test/obj/Debug/net6.0/ref/ConcentKitchen.Test.dll
 /home/max/Documentos/teste-tecnico-concent-sistemas/Backend/ConcentKitchen.Test/obj/Debug/net6.0/ConcentKitchen.Test.pdb
 /home/max/Documentos/teste-tecnico-concent-sistemas/Backend/ConcentKitchen.Test/obj/Debug/net6.0/ConcentKitchen.Test.genruntimeconfig.cache
+/home/max/Documentos/teste-tecnico-concent-sistemas/Backend/ConcentKitchen.Test/bin/Debug/net6.0/Castle.Core.dll
+/home/max/Documentos/teste-tecnico-concent-sistemas/Backend/ConcentKitchen.Test/bin/Debug/net6.0/Moq.dll

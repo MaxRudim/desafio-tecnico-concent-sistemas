@@ -137,7 +137,6 @@ namespace ConcentKitchen.Test.Repository
             var savedClients = await clientRepository.GetAll();
 
             //Assert
-            Console.WriteLine(clients);
             savedClients.Should().BeEquivalentTo(clients);
 
         }
