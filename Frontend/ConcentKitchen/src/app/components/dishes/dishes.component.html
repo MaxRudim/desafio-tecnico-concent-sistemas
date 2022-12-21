@@ -1,1 +1,6 @@
-<app-dish-item *ngFor="let dish of dishes" [dish]="dish"></app-dish-item>
+<app-dish-item
+  *ngFor="let dish of dishes"
+  [dish]="dish"
+  (onDeleteDish)="deleteDish(dish)"
+>
+</app-dish-item>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Dish } from 'src/app/Dish';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,12 +12,19 @@ export class DishItemComponent implements OnInit {
   @Input()
   dish!: Dish;
 
+  @Output() onDeleteDish: EventEmitter<Dish> = new
+  EventEmitter()
+
   faTimes = faTimes;
 
   constructor() {}
 
   ngOnInit(): void {
 
+  }
+
+  onDelete(dish: any) {
+    this.onDeleteDish.emit(dish);
   }
 
 }

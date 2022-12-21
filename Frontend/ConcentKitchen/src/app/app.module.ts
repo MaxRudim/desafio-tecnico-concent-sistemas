@@ -9,6 +9,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { ButtonComponent } from './components/button/button.component';
 import { DishesComponent } from './components/dishes/dishes.component';
 import { DishItemComponent } from './components/dish-item/dish-item.component';
+import { AddDishComponent } from './components/add-dish/add-dish.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { DishItemComponent } from './components/dish-item/dish-item.component';
     HeaderComponent,
     ButtonComponent,
     DishesComponent,
-    DishItemComponent
+    DishItemComponent,
+    AddDishComponent,
   ],
   imports: [
     BrowserModule,

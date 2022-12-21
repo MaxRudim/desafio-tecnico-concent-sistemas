@@ -3,6 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Dish } from '../Dish';
 
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,5 +22,11 @@ export class DishService {
 
   getDishes(): Observable<Dish[]> {
     return this.http.get<Dish[]>(this.apiUrl);
+  }
+
+  deleteDish(dish: Dish): Observable<Dish> {
+    const url = `${this.apiUrl}/${dish.dishId}`;
+
+    return this.http.delete<Dish>(url);
   }
 }
