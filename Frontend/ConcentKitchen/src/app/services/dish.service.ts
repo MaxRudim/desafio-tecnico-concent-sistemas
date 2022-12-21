@@ -29,4 +29,8 @@ export class DishService {
 
     return this.http.delete<Dish>(url);
   }
+
+  addDish(dish: Dish): Observable<Dish> {
+    return this.http.post<Dish>(this.apiUrl, dish, httpOptions);
+  }
 }

@@ -21,4 +21,8 @@ export class DishesComponent implements OnInit {
       .deleteDish(dish)
       .subscribe(() => (this.dishes = this.dishes.filter(t => t.dishId !== dish.dishId)));
   }
+
+  addDish(dish: Dish) {
+    this.dishService.addDish(dish).subscribe((dish) => (this.dishes.push(dish)));
+  }
 }

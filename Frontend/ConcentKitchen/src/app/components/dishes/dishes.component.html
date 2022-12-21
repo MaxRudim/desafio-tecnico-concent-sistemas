@@ -1,3 +1,7 @@
+<app-add-dish
+  (onAddDish)="addDish($event)"
+>
+</app-add-dish>
 <app-dish-item
   *ngFor="let dish of dishes"
   [dish]="dish"
