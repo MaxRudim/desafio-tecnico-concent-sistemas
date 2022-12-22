@@ -11,6 +11,8 @@ import { ButtonComponent } from './components/button/button.component';
 import { DishesComponent } from './components/dishes/dishes.component';
 import { DishItemComponent } from './components/dish-item/dish-item.component';
 import { AddDishComponent } from './components/add-dish/add-dish.component';
+import { LoginComponent } from './components/login/login.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { AddDishComponent } from './components/add-dish/add-dish.component';
     DishesComponent,
     DishItemComponent,
     AddDishComponent,
+    LoginComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
