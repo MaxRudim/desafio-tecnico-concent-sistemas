@@ -23,6 +23,25 @@ namespace ConcentKitchen.Test.Repository
             };
         }
 
+        public static IEnumerable<object[]> SendLoginParameters()
+        {
+            yield return new object[]
+            {
+                new Client
+                {
+                  TableNumber = 1,
+                  Name = "Max",
+                  Cpf = "776.059.730-47",
+                },
+
+                new LoginData
+                {
+                  Name = "Max",
+                  Cpf = "776.059.730-47",
+                }
+            };
+        }
+
         public static IEnumerable<object[]> SendTwoClientsParameters()
         {
             yield return new object[]
@@ -42,7 +61,7 @@ namespace ConcentKitchen.Test.Repository
                 }
             };
         }
-
+        
         [Theory]
         [MemberData(nameof(SendClientParameters))]
         public async void ShouldCreateAClient(Client client)
@@ -119,6 +138,24 @@ namespace ConcentKitchen.Test.Repository
 
             //Assert
             clientSaved.Should().BeEquivalentTo(client);
+            clientSaved.Should().BeOfType<Client>();
+        }
+
+        [Theory]
+        [MemberData(nameof(SendLoginParameters))]
+        public async void ShouldLoginAClient(Client client, LoginData loginData)
+        {
+            //Arrange
+            KitchenTestContext kitchenTestContext = new();
+            ClientRepository clientRepository = new(kitchenTestContext);
+
+            //Act
+            await clientRepository.Add(client);
+            var clientSaved = await clientRepository.Login(loginData);
+
+            //Assert
+            clientSaved.Should().BeEquivalentTo(client);
+            clientSaved.Should().BeOfType<Client>();
         }
 
         [Theory]

@@ -48,6 +48,37 @@ namespace ConcentKitchen.Test
             };
         }
 
+        public static IEnumerable<object[]> SendLoginParameters()
+        {
+            yield return new object[]
+            {
+                new Client
+                {
+                  TableNumber = 1,
+                  Name = "Max",
+                  Cpf = "776.059.730-47",
+                },
+
+                new LoginData
+                {
+                  Name = "Max",
+                  Cpf = "776.059.730-47",
+                }
+            };
+        }
+
+        public static IEnumerable<object[]> SendWrongLoginParameters()
+        {
+            yield return new object[]
+            {
+                new LoginData
+                {
+                  Name = "Nome Inválido",
+                  Cpf = "776.059.730-47",
+                }
+            };
+        }
+
         public static IEnumerable<object[]> SendTwoClientsParameters()
         {
             yield return new object[]
@@ -67,7 +98,7 @@ namespace ConcentKitchen.Test
                 }
             };
         }
-        
+                
         [Theory]
         [MemberData(nameof(SendClientParameters))]
         public async void ShouldCreateAClient(Client client)
@@ -76,7 +107,6 @@ namespace ConcentKitchen.Test
             var context = new KitchenTestContext();
             var mockRepository = new Mock<IClientRepository>();
 
-            // mockRepository.Setup(library => library.GetUserByLoginName(login)).ReturnsAsync(value: null);
             mockRepository.Setup(library => library.Add(client)).ReturnsAsync(client);
 
             var service = new ClientService(mockRepository.Object);
@@ -186,6 +216,45 @@ namespace ConcentKitchen.Test
 
             //Assert
             await act.Should().ThrowAsync<InvalidOperationException>().WithMessage("O cliente não existe");
+        }
+
+        [Theory]
+        [MemberData(nameof(SendLoginParameters))]
+        public async void ShouldLoginAClient(Client client, LoginData loginData)
+        {
+            //Arrange
+            var context = new KitchenTestContext();
+            var mockRepository = new Mock<IClientRepository>();
+
+            mockRepository.Setup(library => library.Login(loginData)).ReturnsAsync(client);
+
+            var service = new ClientService(mockRepository.Object);
+
+            //Act
+            var output = await service.Login(loginData);
+
+            //Assert
+            output.Should().BeOfType<Client>();
+            output.Should().Be(client);
+        }
+
+        [Theory]
+        [MemberData(nameof(SendWrongLoginParameters))]
+        public async void ShouldThrowAnErrorWhenPassingWrongLoginData(LoginData loginData)
+        {
+            //Arrange
+            var context = new KitchenTestContext();
+            var mockRepository = new Mock<IClientRepository>();
+
+            mockRepository.Setup(library => library.Login(loginData));
+
+            var service = new ClientService(mockRepository.Object);
+
+            //Act
+            Func<Task> act = async () => await service.Login(loginData);
+
+            //Assert
+            await act.Should().ThrowAsync<InvalidOperationException>().WithMessage("Este cliente não existe");
         }
 
         [Theory]

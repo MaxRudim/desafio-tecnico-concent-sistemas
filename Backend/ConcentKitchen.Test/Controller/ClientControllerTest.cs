@@ -19,7 +19,6 @@ namespace ConcentKitchen.Test.Controller;
 public class ClientControllerTest
 {
     public string apiUri = "https://localhost:7279";
-
     
     [Trait("Client", "1 - Client Test")]
     [Fact(DisplayName = "Teste para Create Client Controller")]
@@ -113,6 +112,39 @@ public class ClientControllerTest
 
         var getClient = await client.GetAsync($"{apiUri}/client/id");
         getClient.Should().BeSuccessful();
+
+        var json = await response.Content.ReadAsStringAsync();
+        json.Should().Contain(newClient);
+
+    }
+
+    [Trait("Client", "1 - Client Test")]
+    [Fact(DisplayName = "Teste para Login Client")]
+    public async Task TestLoginAClientController()
+    {
+    
+        var mockHttp = new MockHttpMessageHandler();
+
+        var newClient = JsonConvert.SerializeObject(new
+          {
+            TableNumber = 1,
+            Name = "Max",
+            Cpf = "776.059.730-47",
+          });
+
+        mockHttp.When(HttpMethod.Post, $"{apiUri}/client")
+                .Respond("application/json", newClient);
+
+        mockHttp.When(HttpMethod.Get, $"{apiUri}/login")
+                .Respond("application/json", newClient);
+                
+        var client = mockHttp.ToHttpClient();
+
+        var response = await client.PostAsync($"{apiUri}/client", new StringContent(newClient, Encoding.UTF8, "application/json"));
+        response.Should().BeSuccessful();
+
+        var loginClient = await client.GetAsync($"{apiUri}/login");
+        loginClient.Should().BeSuccessful();
 
         var json = await response.Content.ReadAsStringAsync();
         json.Should().Contain(newClient);
