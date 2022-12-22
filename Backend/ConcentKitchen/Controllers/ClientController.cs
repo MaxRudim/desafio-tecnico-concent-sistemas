@@ -14,6 +14,20 @@ public class ClientController : Controller
         _service = service;
     }
 
+    [HttpGet("/login")]
+    public async Task<IActionResult> Login([FromBody] LoginData logindata)
+    {
+        try
+        {
+            var client = await _service.Login(logindata);
+            return Ok(client);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+    
     [HttpPost()]
     public async Task<IActionResult> CreateClient([FromBody] Client client)
     {

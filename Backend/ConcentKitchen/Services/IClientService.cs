@@ -4,6 +4,7 @@ namespace ConcentKitchen.Services;
 
 public interface IClientService
 {
+    public Task<Client> Login(LoginData loginData);
     public Task<Client> CreateClient(Client client);
     public Task DeleteClient(Guid id);
     public Task<Client> UpdateClient(Client client);

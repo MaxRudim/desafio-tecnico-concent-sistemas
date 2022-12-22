@@ -51,6 +51,14 @@ public class ClientRepository : IClientRepository
         return client;
     }
 
+    public async Task<Client?> Login(LoginData logindata)
+    {
+        var client = await _context.Clients!
+          .AsNoTracking()
+          .FirstOrDefaultAsync(a => a.Cpf == logindata.Cpf && a.Name.Contains(logindata.Name));
+        return client;
+    }
+
     public async Task<IEnumerable<Client>> GetAll()
     {
         var client = await _context.Clients!.ToListAsync();

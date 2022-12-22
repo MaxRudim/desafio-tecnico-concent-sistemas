@@ -11,6 +11,21 @@ public class ClientService : IClientService
         _repository = repository;
     }
 
+    public async Task<Client> Login(LoginData loginData)
+    {
+        try
+        {
+            var client = await _repository.Login(loginData);
+            if (client == null) throw new InvalidOperationException("Este cliente não existe");
+
+            return client;
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw ex;
+        }
+    }
+
     public async Task<Client> CreateClient(Client client)
     {
         try

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ConcentKitchen.Models
 {
@@ -20,5 +21,14 @@ namespace ConcentKitchen.Models
 
     public ICollection<Order>? Orders { get; set; }
 
+  }
+
+  [NotMapped]
+  public class LoginData
+  {
+    [NotMapped]
+    public string Cpf { get; set; } = string.Empty;
+    [NotMapped]
+    public string Name { get; set; } = string.Empty;
   }
 }
