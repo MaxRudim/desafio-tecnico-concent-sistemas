@@ -43,11 +43,11 @@ public class DishController : Controller
     }
     
     [HttpGet()]
-    public async Task<IActionResult> GetAllDishes()
+    public async Task<IActionResult> GetAllDishes([FromQuery] string? category)
     {
         try
         {
-            var dishes = await _service.GetAllDishes();
+            var dishes = await _service.GetAllDishes(category);
             return Ok(dishes);
         }
         catch (InvalidOperationException ex)

@@ -41,14 +41,16 @@ public class DishService : IDishService
         }
     }
     
-    public async Task<IEnumerable<Dish>> GetAllDishes()
+    public async Task<IEnumerable<Dish>> GetAllDishes(string? category)
     {
         try
         {
-            var dishes = await _repository.GetAll();
+            var dishes = await _repository.GetAll(category);
+
             if (!dishes.Any()) throw new InvalidOperationException("Não existem pratos cadastrados");
 
             return dishes;
+             
         }
         catch (InvalidOperationException ex)
         {

@@ -8,5 +8,5 @@ public interface IDishRepository
   public Task Delete(Guid id);
   public Task Update(Dish dish);
   public Task<Dish?> Get(Guid id);
-  public Task<IEnumerable<Dish>> GetAll();
+  public Task<IEnumerable<Dish>> GetAll(string? category);
 }

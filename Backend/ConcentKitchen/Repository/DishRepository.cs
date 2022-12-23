@@ -44,11 +44,15 @@ public class DishRepository : IDishRepository
         return dish;
     }
 
-    public async Task<IEnumerable<Dish>> GetAll()
+    public async Task<IEnumerable<Dish>> GetAll(string? category = null)
     {
-        var dishes = await _context.Dishes!.ToListAsync();
+        
+        if (category is null || category == string.Empty)
+        {
+          return await _context.Dishes!.ToListAsync();
+        }
 
-        return dishes;
+        return await _context.Dishes!.Where(d => d.DishCategory.Contains(category)).ToListAsync();
     }
 
 }

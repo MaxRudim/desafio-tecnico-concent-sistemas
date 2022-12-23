@@ -132,10 +132,16 @@ public class ClientControllerTest
             Cpf = "776.059.730-47",
           });
 
+        var newLoginData = JsonConvert.SerializeObject(new
+          {
+            Name = "Max",
+            Cpf = "776.059.730-47",
+          });
+
         mockHttp.When(HttpMethod.Post, $"{apiUri}/client")
                 .Respond("application/json", newClient);
 
-        mockHttp.When(HttpMethod.Get, $"{apiUri}/login")
+        mockHttp.When(HttpMethod.Post, $"{apiUri}/login")
                 .Respond("application/json", newClient);
                 
         var client = mockHttp.ToHttpClient();
@@ -143,11 +149,8 @@ public class ClientControllerTest
         var response = await client.PostAsync($"{apiUri}/client", new StringContent(newClient, Encoding.UTF8, "application/json"));
         response.Should().BeSuccessful();
 
-        var loginClient = await client.GetAsync($"{apiUri}/login");
+        var loginClient = await client.PostAsync($"{apiUri}/login", new StringContent(newLoginData, Encoding.UTF8, "application/json"));
         loginClient.Should().BeSuccessful();
-
-        var json = await response.Content.ReadAsStringAsync();
-        json.Should().Contain(newClient);
 
     }
 

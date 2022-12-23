@@ -14,7 +14,7 @@ public class ClientController : Controller
         _service = service;
     }
 
-    [HttpGet("/login")]
+    [HttpPost("/login")]
     public async Task<IActionResult> Login([FromBody] LoginData logindata)
     {
         try
